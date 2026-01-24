@@ -1,7 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
-const bodyParser = require('body-parser');
+//const bodyParser = require('body-parser');
 const session = require('express-session');
 
 // Import Models
@@ -21,7 +21,8 @@ mongoose.connect('mongodb://127.0.0.1:27017/thue_nha_db')
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
 app.use(cookieParser());
-app.use(bodyParser.urlencoded({ extended: true }));
+//app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: true }));
 
 // Session Config
 app.use(session({
