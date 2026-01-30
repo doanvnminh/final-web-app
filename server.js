@@ -15,10 +15,7 @@ const Contact = require('./web/models/contact');
 const app = express();
 
 // --- 1. CONFIGURATION & DATABASE ---
-mongoose.connect(process.env.MONGO_URL, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-})
+mongoose.connect(process.env.MONGO_URL)
     .then(() => console.log('✅ Đã kết nối MongoDB thành công!'))
     .catch(err => console.error('❌ Lỗi kết nối DB:', err));
 
