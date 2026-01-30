@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trang Quản Trị - Admin</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        /* CSS riêng cho trang Admin */
+        .admin-container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 0 15px;
+        }
+
+        .stat-box {
+            background: #f4f4f4;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 5px solid #2ecc71;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #333;
+            color: white;
+        }
+
+        .btn-update {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+
+        .btn-delete {
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+
+        .edit-input {
+            width: 100%;
+            padding: 5px;
+            box-sizing: border-box;
+        }
+
+        h2 {
+            border-bottom: 2px solid #333;
+            padding-bottom: 10px;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+
+        .table-responsive {
+            overflow-x: auto;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="admin-container">
+        <h1>Dashboard Quản Trị</h1>
+        <p>Xin chào, <strong>Admin</strong>! | <a href="/">Về trang chủ</a></p>
+
+        <div class="stat-box">
+            <h3>Tổng lượt truy cập Website: <span style="color: red; font-size: 24px;">
+                    <%= globalViews %>
+                </span> lượt</h3>
+        </div>
+
+        <h2>Quản lý tin đăng (Nhà cho thuê)</h2>
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Tên nhà</th>
+                        <th width="15%">Giá (Sửa được)</th>
+                        <th width="30%">Mô tả (Sửa được)</th>
+                        <th>Lượt xem</th>
+                        <th>Hành động</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% houses.forEach(house=> { %>
+                        <tr>
+                            <form action="/admin/update-house" method="POST">
+                                <input type="hidden" name="id" value="<%= house._id %>">
+                                <td><a href="/house/<%= house._id %>">
+                                        <%= house.title %>
+                                    </a></td>
+                                <td><input type="text" name="price" class="edit-input" value="<%= house.price %>"></td>
+                                <td><textarea name="desc" class="edit-input" rows="2"><%= house.desc %></textarea></td>
+                                <td>
+                                    <%= house.views %>
+                                </td>
+                                <td><button type="submit" class="btn-update">Cập nhật</button></td>
+                            </form>
+                        </tr>
+                        <% }) %>
+                </tbody>
+            </table>
+        </div>
+
+        <h2>Quản lý bình luận</h2>
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Bài viết</th>
+                        <th>Người gửi</th>
+                        <th>Nội dung</th>
+                        <th>Điểm</th>
+                        <th>Hành động</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% if(comments.length===0) { %>
+                        <tr>
+                            <td colspan="5" style="text-align: center;">Chưa có bình luận nào.</td>
+                        </tr>
+                        <% } %>
+
+                            <% comments.forEach(comment=> { %>
+                                <tr>
+                                    <td>
+                                        <%= comment.houseId ? comment.houseId.title : 'Bài viết đã bị xóa' %>
+                                    </td>
+                                    <td>
+                                        <strong>
+                                            <%= comment.name %>
+                                        </strong><br>
+                                        <small>
+                                            <%= comment.email %>
+                                        </small>
+                                    </td>
+                                    <td>
+                                        <%= comment.content %>
+                                    </td>
+                                    <td>
+                                        <%= comment.rating %>/5 sao
+                                    </td>
+                                    <td>
+                                        <form action="/admin/delete-comment" method="POST"
+                                            onsubmit="return confirm('Bạn chắc chắn muốn xóa?');">
+                                            <input type="hidden" name="commentId" value="<%= comment._id %>">
+                                            <button type="submit" class="btn-delete">Xóa</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                <% }) %>
+                </tbody>
+            </table>
+        </div>
+
+        <h2>📬 Tin nhắn từ khách hàng</h2>
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Ngày gửi</th>
+                        <th>Người gửi</th>
+                        <th>Email</th>
+                        <th width="40%">Nội dung</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% if(!contacts || contacts.length===0) { %>
+                        <tr>
+                            <td colspan="4" style="text-align: center;">Chưa có tin nhắn nào.</td>
+                        </tr>
+                        <% } else { %>
+                            <% contacts.forEach(msg=> { %>
+                                <tr>
+                                    <td>
+                                        <%= msg.date ? msg.date.toLocaleDateString('vi-VN') : 'Mới' %>
+                                    </td>
+                                    <td><strong>
+                                            <%= msg.name %>
+                                        </strong></td>
+                                    <td>
+                                        <%= msg.email %>
+                                    </td>
+                                    <td>
+                                        <%= msg.message %>
+                                    </td>
+                                </tr>
+                                <% }) %>
+                                    <% } %>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+    <div style="height: 50px;"></div>
+</body>
+
+</html>

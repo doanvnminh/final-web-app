@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Đăng nhập</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body
+    style="background: #f4f4f4; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0;">
+
+    <div class="login-box"
+        style="background: white; padding: 40px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); width: 300px;">
+        <h2 style="text-align: center;">Đăng nhập</h2>
+
+        <form action="/login" method="POST">
+            <div style="margin-bottom: 15px;">
+                <label>Tài khoản</label>
+                <input type="text" name="username" placeholder="Ví dụ: admin" required
+                    style="width: 100%; padding: 10px; box-sizing: border-box;">
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <label>Mật khẩu</label>
+                <input type="password" name="password" placeholder="Ví dụ: 123" required
+                    style="width: 100%; padding: 10px; box-sizing: border-box;">
+            </div>
+
+            <button type="submit"
+                style="width: 100%; background: #333; color: white; padding: 10px; border: none; cursor: pointer;">Đăng
+                nhập</button>
+        </form>
+
+        <p style="text-align: center; margin-top: 20px;">
+            <a href="/">Về trang chủ</a>
+        </p>
+
+        <div style="margin-top: 20px; background: #e8f0fe; padding: 10px; font-size: 12px; border-radius: 4px;">
+            <strong>Gợi ý test:</strong><br>
+            User: <code>admin</code> / Pass: <code>123</code>
+        </div>
+    </div>
+
+</body>
+
+</html>
