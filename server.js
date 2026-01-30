@@ -21,6 +21,7 @@ mongoose.connect(process.env.MONGO_URL)
     .catch(err => console.error('❌ Lỗi kết nối DB:', err));
 
 const viewsPath = path.join(__dirname, 'views');
+
 console.log("🔍 DEBUG: Checking path:", viewsPath);
 
 if (fs.existsSync(viewsPath)) {
@@ -33,7 +34,7 @@ if (fs.existsSync(viewsPath)) {
 
 app.set('views', viewsPath); // usage
 app.set('view engine', 'ejs');
-
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(cookieParser());
 //app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.urlencoded({ extended: true }));
