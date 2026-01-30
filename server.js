@@ -19,9 +19,9 @@ mongoose.connect(process.env.MONGO_URL)
     .then(() => console.log('✅ Đã kết nối MongoDB thành công!'))
     .catch(err => console.error('❌ Lỗi kết nối DB:', err));
 
-app.set('view engine', 'ejs');
 app.use(express.static(path.join(__dirname, 'public')));
 app.set('views', path.join(__dirname, 'views'));  // fixes /src/views issue
+app.set('view engine', 'ejs');
 
 app.use(cookieParser());
 //app.use(bodyParser.urlencoded({ extended: true }));
