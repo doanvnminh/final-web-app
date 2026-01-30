@@ -6,11 +6,11 @@ const session = require('express-session');
 const path = require('path');
 
 // Import Models
-const User = require('./models/user');
-const House = require('./models/house');
-const Comment = require('./models/comments');
-const SiteStat = require('./models/sitestat');
-const Contact = require('./models/contact');
+const User = require('./web/models/user');
+const House = require('./web/models/house');
+const Comment = require('./web/models/comments');
+const SiteStat = require('./web/models/sitestat');
+const Contact = require('./web/models/contact');
 
 const app = express();
 
