@@ -4,6 +4,7 @@ const cookieParser = require('cookie-parser');
 //const bodyParser = require('body-parser');
 const session = require('express-session');
 const path = require('path');
+const fs = require('fs');
 
 // Import Models
 const User = require('./web/models/user');
@@ -19,8 +20,18 @@ mongoose.connect(process.env.MONGO_URL)
     .then(() => console.log('✅ Đã kết nối MongoDB thành công!'))
     .catch(err => console.error('❌ Lỗi kết nối DB:', err));
 
-app.use(express.static(path.join(__dirname, 'public')));
-app.set('views', path.join(__dirname, 'views'));  // fixes /src/views issue
+const viewsPath = path.join(__dirname, 'views');
+console.log("🔍 DEBUG: Checking path:", viewsPath);
+
+if (fs.existsSync(viewsPath)) {
+    console.log("✅ Views folder found! Contents:", fs.readdirSync(viewsPath));
+} else {
+    console.log("❌ CRITICAL ERROR: Views folder does NOT exist at this path!");
+    console.log("📂 Current directory contents:", fs.readdirSync(__dirname));
+}
+// --- DEBUG BLOCK END ---
+
+app.set('views', viewsPath); // usage
 app.set('view engine', 'ejs');
 
 app.use(cookieParser());
